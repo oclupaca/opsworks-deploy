@@ -74,14 +74,14 @@ foreach ($stacks as $stack) {
 
 				$app_found = true;
 
-				// $deployResult = $client->createDeployment(array(
-				// 	'StackId' => $stack['StackId'],
-				// 	'AppId' => $app['AppId'],
-				// 	'Command' => array(
-				// 		'Name' => 'deploy',
-				// 		),
-				// 	));
-				// $deployment_id = $deployResult->get('DeploymentId');
+				$deployResult = $client->createDeployment(array(
+					'StackId' => $stack['StackId'],
+					'AppId' => $app['AppId'],
+					'Command' => array(
+						'Name' => 'deploy',
+						),
+					));
+				$deployment_id = $deployResult->get('DeploymentId');
 				$response['text'] = "Deploying *" . $app['Name'] . "* to *" . $stack['Name'] .  "*\n";
 				$response['text'] .= "Deployment ID:  `" . $deployment_id . '`';
 			}
