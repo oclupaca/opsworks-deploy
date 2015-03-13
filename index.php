@@ -30,7 +30,7 @@ require 'vendor/autoload.php';
 use Aws\OpsWorks\OpsWorksClient;
 use Aws\Common\Credentials\Credentials;
 
-$response = array('text' => "Nothing Deployed");
+$response = array('text' => "");
 
 $stack_found = false;
 $app_found = false;
@@ -83,7 +83,7 @@ foreach ($stacks as $stack) {
 				// 	));
 				// $deployment_id = $deployResult->get('DeploymentId');
 				$response['text'] = "Deploying *" . $app['Name'] . "* to *" . $stack['Name'] .  "*\n";
-				// $response['text'] .= "Deployment ID:  `" . $deployment_id . '`';
+				$response['text'] .= "Deployment ID:  `" . $deployment_id . '`';
 			}
 
 		}
