@@ -8,11 +8,11 @@
     #     cwd path
     #     command "wget https://getcomposer.org/installer -O composer.phar"
     # end
-    # execute "install composer" do
-    #     user "root"
-    #     cwd path
-    #     command "php composer.phar install"
-    # end
+    execute "install composer" do
+        user "root"
+        cwd path
+        command "php composer.phar install"
+    end
     execute "composer install" do
         user "root"
         cwd path
