@@ -15,6 +15,7 @@ if (getenv('slack_token')) {
 	define('SLACK_TOKEN', getenv('slack_token'));
 }
 
+// Make sure the token matches
 if (!isset($_POST['token']) || $_POST['token'] !== SLACK_TOKEN) {
 	echo "nope";
 	die;
@@ -29,9 +30,7 @@ require 'vendor/autoload.php';
 use Aws\OpsWorks\OpsWorksClient;
 use Aws\Common\Credentials\Credentials;
 
-
-$response = array('text' => "");
-
+$response = array('text' => "Nothing Deployed");
 
 $stack_found = false;
 $app_found = false;
@@ -75,16 +74,16 @@ foreach ($stacks as $stack) {
 
 				$app_found = true;
 
-				$deployResult = $client->createDeployment(array(
-					'StackId' => $stack['StackId'],
-					'AppId' => $app['AppId'],
-					'Command' => array(
-						'Name' => 'deploy',
-						),
-					));
-				$deployment_id = $deployResult->get('DeploymentId');
+				// $deployResult = $client->createDeployment(array(
+				// 	'StackId' => $stack['StackId'],
+				// 	'AppId' => $app['AppId'],
+				// 	'Command' => array(
+				// 		'Name' => 'deploy',
+				// 		),
+				// 	));
+				// $deployment_id = $deployResult->get('DeploymentId');
 				$response['text'] = "Deploying *" . $app['Name'] . "* to *" . $stack['Name'] .  "*\n";
-				$response['text'] .= "Deployment ID:  `" . $deployment_id . '`';
+				// $response['text'] .= "Deployment ID:  `" . $deployment_id . '`';
 			}
 
 		}
@@ -93,17 +92,17 @@ foreach ($stacks as $stack) {
 	}
 }
 
-if (!$stack_found || !$app_found) {
-	$response['text'] = "*Deploy Error*: \n";
-}
-if (!$stack_found) {
-	$response['text'] .=  "The stack `$stack_name` was not found. \n";
-} else {
-	if (!$app_found) {
-		$response['text'] .=  "The app `$app_name` was not found. \n";
-	}
+// if (!$stack_found || !$app_found) {
+// 	$response['text'] = "*Deploy Error*: \n";
+// }
+// if (!$stack_found) {
+// 	$response['text'] .=  "The stack `$stack_name` was not found. \n";
+// } else {
+// 	if (!$app_found) {
+// 		$response['text'] .=  "The app `$app_name` was not found. \n";
+// 	}
 
-}
+// }
 
 echo json_encode($response);
 
