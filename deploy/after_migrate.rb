@@ -3,11 +3,11 @@
         level :debug
     end
 
-    # execute "download composer" do
-    #     user "root"
-    #     cwd path
-    #     command "wget https://getcomposer.org/installer -O composer.phar"
-    # end
+    execute "download composer" do
+        user "root"
+        cwd path
+        command "wget https://getcomposer.org/installer -O composer.phar"
+    end
     execute "install composer" do
         user "root"
         cwd path
