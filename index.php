@@ -37,11 +37,11 @@ $app_found = false;
 $text = $_POST['text'];
 
 $text_array = explode(" ", $text);
-$app_name = $text_array[1];
-$stack_name = $text_array[2];
+$app_name = $text_array[0];
+$stack_name = $text_array[1];
 
-if (sizeof($text_array) < 3) {
-	$response['text'] = "Usage: deploy [app name] [stack name]";
+if (sizeof($text_array) < 2) {
+	$response['text'] = "Usage: /deploy [app name] [stack name]";
 	echo json_encode($response);
 	die;
 }

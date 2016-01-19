@@ -5,12 +5,12 @@ if (isset($_POST['text'])) {
 	$text = $_POST['text'];
 
 	$text_array = explode(" ", $text);
-	if (count($text_array) < 2) {
+	if (count($text_array) < 1) {
 		$response['text'] = "Usage: dig [domain name]";
 		echo json_encode($response);
 		die;
 	}
-	$domain_name = $text_array[1];
+	$domain_name = $text_array[0];
 } else {
 	$domain_name = $_GET['domain'];
 }
@@ -21,7 +21,7 @@ $tlds = array('com', 'org', 'net', 'ag', 'coop', 'farm');
 $domain_name = str_replace("<http:\/\/", "", $domain_name);
 $domain_name = str_replace(">", "", $domain_name);
 $domain_name = str_replace("<", "", $domain_name);
-if (strpos($domain_name, "|" !== FALSE)) {
+if (strpos($domain_name, "|") !== FALSE) {
 	$domain_name = substr($domain_name, 0, strpos($domain_name, "|"));
 }
 
@@ -92,7 +92,7 @@ $text .= "*Other Records* for $full_domain: \n";
 foreach ($all_records as $record) {
 	if ($record['type'] == 'A') {
 		$other_records .= $record['type'] . " " . $record['ttl'] . " " . $record['ip'] . "\n";
-	} else if ($record['type'] !== 'SOA' && $record['type'] !== 'NS' && $record['type'] !== 'TXT') {
+	} else if ($record['type'] !== 'SOA' && $record['type'] !== 'NS' && $record['type'] !== 'NAPTR' && $record['type'] !== 'TXT') {
 		$other_records .= $record['type'] . " " . $record['ttl'] . " " . $record['target'] . "\n";
 	}
 }
