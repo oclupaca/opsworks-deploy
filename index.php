@@ -40,7 +40,7 @@ $text_array = explode(" ", $text);
 $app_name = $text_array[0];
 $stack_name = $text_array[1];
 
-if (sizeof($text_array) < 2) {
+if (sizeof($text_array) < 2 && $app_name !== 'list') {
 	$response['text'] = "Usage: /deploy [app name] [stack name]";
 	echo json_encode($response);
 	die;
@@ -58,6 +58,35 @@ $client = OpsWorksClient::factory(array(
 $stacksResult = $client->describeStacks();
 
 $stacks = $stacksResult->get('Stacks');
+
+if ($app_name == 'list') {
+	$response['text'] .= "*Available Stacks / Apps:* \n";
+	$response['text'] .= "*---- int-lamp -----* \n";
+
+	$appsResult = $client->describeApps([
+	    'StackId' => '2b4ab5c9-f8a8-40f6-9101-f976e3248477',
+	]);
+	$apps = $appsResult->get('Apps');
+	foreach ($apps as $app) {
+		$response['text'] .= $app['Shortname'] . "\n";
+
+	}
+
+	$response['text'] .= "*---- prod-lamp ----* \n";
+
+	$appsResult = $client->describeApps([
+	    'StackId' => 'e67ae7db-8d36-4adc-894a-7a49bb1cdca6',
+	]);
+	$apps = $appsResult->get('Apps');
+	foreach ($apps as $app) {
+		$response['text'] .= $app['Shortname'] . "\n";
+
+	}
+
+
+	echo json_encode($response);
+	die;
+}
 
 foreach ($stacks as $stack) {
 
